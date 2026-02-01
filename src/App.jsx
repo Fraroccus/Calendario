@@ -22,9 +22,28 @@ import CalendarGrid from './CalendarGrid';
 import AnalyticsDashboard from './AnalyticsDashboard';
 
 function App() {
+  const [bootError, setBootError] = useState(null);
   const { t, i18n } = useTranslation();
   
   const store = useStore();
+  
+  useEffect(() => {
+    window.onerror = (msg, url, lineNo, columnNo, error) => {
+      setBootError(`${msg} at line ${lineNo}`);
+      return false;
+    };
+  }, []);
+
+  if (bootError) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-red-50 p-4 text-center">
+        <div>
+          <h1 className="text-red-600 font-bold mb-2">Critical Error</h1>
+          <p className="text-sm text-gray-700">{bootError}</p>
+        </div>
+      </div>
+    );
+  }
   
   // Basic rendering if i18n is not ready
   if (!i18n.isInitialized) {
