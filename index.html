@@ -8,6 +8,21 @@
   </head>
   <body>
     <div id="root"></div>
+    <div id="error-display" style="display:none; color:red; padding:20px; font-family:sans-serif; text-align:center;">
+      <h2>Critical Error</h2>
+      <p id="error-msg"></p>
+    </div>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        var display = document.getElementById('error-display');
+        var msgNode = document.getElementById('error-msg');
+        if (display && msgNode) {
+          display.style.display = 'block';
+          msgNode.innerText = msg + '\n' + url + ':' + line;
+        }
+        return false;
+      };
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
